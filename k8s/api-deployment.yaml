@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ucoordinates-api
+  labels:
+    app: uucoordinates-api
+    tier: application
+spec:
+  replicas: 3
+  
+  selector:
+    matchLabels:
+      app: user-api
+  
+  template:
+    metadata:
+      labels:
+        app: user-api
+        tier: application
+    spec:
+      containers:
+      - name: api
+        image: mennidiskind/coordinates_api:v1
+        
+        ports:
+        - containerPort: 8000
+          name: http
+        
+        env:
+        - name: POSTGRES_HOST 
+          value: "postgres-0.svc"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "coordinates_db"
+        - name: POSTGRES_USER
+          value: "postgres "
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
