@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ucoordinates-api
+  name: coordinates-api
   labels:
-    app: uucoordinates-api
+    app: coordinates-api
     tier: application
 spec:
   replicas: 3
   
   selector:
     matchLabels:
-      app: user-api
+      app: coordinates-api 
   
   template:
     metadata:
       labels:
-        app: user-api
+        app: coordinates-api
         tier: application
     spec:
       containers:
