@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: coordinates-api-svc 
   labels:
-    app: ucoordinates-api
+    app: coordinates-api
     tier: application
 spec:
   type: NodePort 

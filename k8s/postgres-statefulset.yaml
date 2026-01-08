@@ -29,48 +29,18 @@ spec:
         
         env:
         - name: POSTGRES_DB
-          value: "appdb"
+          value: "coordinates_db"
         - name: POSTGRES_USER
-          value: "appuser"
+          value: "postgres"
         - name: POSTGRES_PASSWORD
-          value: "apppass123"
+          value: "postgres"
         - name: PGDATA
           value: "/var/lib/postgresql/data/pgdata"
         
         volumeMounts:
         - name: postgres-storage
           mountPath: /var/lib/postgresql/data
-        
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        
-        livenessProbe:
-          exec:
-            command:
-            - pg_isready
-            - -U
-            - appuser
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        
-        readinessProbe:
-          exec:
-            command:
-            - pg_isready
-            - -U
-            - appuser
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-  
+
   volumeClaimTemplates:
   - metadata:
       name: postgres-storage
